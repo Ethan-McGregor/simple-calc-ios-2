@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     var toggle: Bool = false
     var operation: String = ""
     var temp: String = ""
-    
+    var history = [""]
     
     
     func factorial(n: Int) -> Int{
@@ -91,6 +91,8 @@ class ViewController: UIViewController {
             for i in inputs{
                 answer += Double(i)!
             }
+            history.append("\(inputs[0]) \(operation)\(inputs[1]) = \(answer)")
+            
             return String(answer)
             
         }
@@ -106,7 +108,7 @@ class ViewController: UIViewController {
                 }
                 cur = Double(i)!
             }
-            
+            history.append("\(inputs[0]) \(operation)\(inputs[1]) = \(answer)")
             return String(answer)
         }
         
@@ -115,7 +117,7 @@ class ViewController: UIViewController {
             for i in inputs{
                 answer *= Double(i)!
             }
-            
+            history.append("\(inputs[0]) \(operation)\(inputs[1]) = \(answer)")
             return String(answer)
             
         }
@@ -128,6 +130,7 @@ class ViewController: UIViewController {
                 answer /= Double(inputs[i])!
                 i += 1
             }
+            history.append("\(inputs[0]) \(operation)\(inputs[1]) = \(answer)")
             return String(answer)
             
         }
@@ -139,12 +142,15 @@ class ViewController: UIViewController {
                 answer = answer.truncatingRemainder(dividingBy: Double(inputs[i])!)
                 i += 1
             }
+            history.append("\(inputs[0]) \(operation)\(inputs[1]) = \(answer)")
             return String(answer)
             
         }
+        
         return ""
         
     }
+
     
     
     @IBAction func add(_ sender: AnyObject) {
@@ -172,7 +178,7 @@ class ViewController: UIViewController {
         
     }
     
-    
+   
     
     @IBAction func avg(_ sender: AnyObject) {
         inputs.append(temp)
@@ -438,5 +444,10 @@ class ViewController: UIViewController {
         temp += String(9)
         display.text = temp
         
-    } 
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let nextScene = segue.destination as! HistoryViewController
+        nextScene.history = history
+    }
 }
